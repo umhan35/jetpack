@@ -34,11 +34,17 @@ class WordAds_Params {
 			$option = get_option( $setting, null );
 
 			if ( is_null( $option ) ) {
+
+				// Handle retroactively setting wordads_custom_adstxt_enabled to true if custom ads.txt content is already entered.
+				if ( 'wordads_custom_adstxt_enabled' === $setting ) {
+					$default = get_option( 'wordads_custom_adstxt' ) !== '';
+				}
+
 				update_option( $setting, $default, true );
 				$option = $default;
 			}
 
-			$this->options[ $setting ] = 'wordads_custom_adstxt' !== $setting ? (bool) $option : $option;
+			$this->options[ $setting ] = is_bool( $default ) ? (bool) $option : $option;
 		}
 
 		$host = 'localhost';

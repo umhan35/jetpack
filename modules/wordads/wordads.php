@@ -511,6 +511,10 @@ HTML;
 	 * @since 6.5.0
 	 */
 	function insert_custom_adstxt( $adstxt ) {
+		if ( ! $this->option( 'wordads_custom_adstxt_enabled' ) ) {
+			return $adstxt;
+		}
+
 		$custom_adstxt = trim( wp_strip_all_tags( $this->option( 'wordads_custom_adstxt' ) ) );
 		if ( $custom_adstxt ) {
 			$adstxt .= "\n\n#Jetpack - User Custom Entries\n";
